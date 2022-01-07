@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Interop;
@@ -148,7 +149,10 @@ namespace M3WDNMD
                     case WM_MOUSEMOVE:
                         MouseHookStruct mh = (MouseHookStruct)Marshal.PtrToStructure(IParam, typeof(MouseHookStruct));
                         int x = mh.pt.x;
-                        Lever = (short)((float)(x - HalfWinWidth + 20) / (float)HalfWinWidth * 32766);
+                        if (x > HalfWinWidth * 2) Lever = 32767;
+                        else if (x < 0) Lever = -32767;
+                        else Lever = (short)((float)(x - HalfWinWidth) / (float)HalfWinWidth * 32766);
+                        Debug.WriteLine(Lever);
                         break;
                     case WM_LBUTTONDOWN: Buttons[3] = 1; break;
                     case WM_LBUTTONUP: Buttons[3] = 0; break;
@@ -173,10 +177,3 @@ namespace M3WDNMD
 
 
 }
-/*KeyBoardHookStruct kbh = (KeyBoardHookStruct)Marshal.PtrToStructure(IParam, typeof(KeyBoardHookStruct));
-Keys k = (Keys)Enum.Parse(typeof(Keys), kbh.vkCode.ToString());
-Console.WriteLine(k);
-if (k == Keys.B)
-{
-    return (IntPtr)1;
-}*/

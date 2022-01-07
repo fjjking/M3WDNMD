@@ -38,7 +38,7 @@ namespace M3WDNMD
             if (Hook.Next_KeyHookPtr == (IntPtr)0)
             {
                 Hook.SetHook();
-                Console.WriteLine("Hook Done");
+                Console.WriteLine("M3WDNMD: Hook Done");
             }
             MSG msg;
             uint PM_REMOVE = 0x0001;
@@ -66,7 +66,6 @@ namespace M3WDNMD
         [DllExport(CallingConvention.Cdecl, ExportName = "mu3_io_set_led")]
         public static void SetLed(uint data)
         {
-            Console.WriteLine(data);
         }
 
         //测试按键
